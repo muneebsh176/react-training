@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import LoginForm from './components/Forms/LoginForm'
 
-function App() {
+const App = () => {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [authError, setAuthError] = useState(undefined)
+
+  const authenticateUser = ({ username, password }) => {
+
+    if (username === "muneeb706" && password === "admin123") {
+      setIsAuthenticated(true)
+      // set user
+    } else {
+      setIsAuthenticated(false)
+      setAuthError('Username or Password is incorrect')
+
+    }
+
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      {isAuthenticated ? <p>LoggedIn</p> : <LoginForm isAuthenticated={isAuthenticated} authError={authError} authenticate={authenticateUser} />}
+    </React.Fragment>
   );
 }
 
