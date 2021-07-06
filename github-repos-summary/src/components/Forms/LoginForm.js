@@ -17,18 +17,18 @@ const LoginForm = ({ isAuthenticated, authError, authenticate }) => {
             </h2>
             {
                 !isAuthenticated && authError &&
-                <Alert color="danger">
+                <Alert data-testid="auth-error" color="danger">
                     {authError}
                 </Alert>
             }
             <FormGroup>
                 <Label>Username</Label>
                 <Input data-testid="username-field" type="text" name="username" placeholder="Username" {...register('username', { required: true })} />
-                {errors.username && errors.username.type === "required" && <Alert color="danger">Username is required</Alert>}
+                {errors.username && errors.username.type === "required" && <Alert data-testid="username-required" color="danger">Username is required</Alert>}
             </FormGroup>
             <FormGroup>
                 <Label>Password</Label>
-                <Input type="password" name="password" placeholder="Password" {...register('password', { required: true })} />
+                <Input data-testid="password-field" type="password" name="password" placeholder="Password" {...register('password', { required: true })} />
                 {errors.password && errors.password.type === "required" && <Alert color="danger">Password is required</Alert>}
 
             </FormGroup>
