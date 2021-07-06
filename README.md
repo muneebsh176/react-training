@@ -1,2 +1,2 @@
-# react-training
+# React Training
 React Training Project
