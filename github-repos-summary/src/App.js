@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import LoginForm from './components/Forms/LoginForm'
+import NavBar from './components/Navigation/NavBar'
 
 const App = () => {
 
@@ -22,7 +23,7 @@ const App = () => {
 
   return (
     <React.Fragment>
-      {isAuthenticated ? <p>LoggedIn</p> : <LoginForm isAuthenticated={isAuthenticated} authError={authError} authenticate={authenticateUser} />}
+      {isAuthenticated ? <NavBar /> : <LoginForm isAuthenticated={isAuthenticated} authError={authError} authenticate={authenticateUser} />}
     </React.Fragment>
   );
 }
