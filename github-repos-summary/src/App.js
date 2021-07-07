@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 import LoginForm from './components/Forms/LoginForm'
-import NavBar from './components/Navigation/NavBar'
+import Home from './components/Home/Home'
+
+import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
 
@@ -22,9 +24,9 @@ const App = () => {
   }
 
   return (
-    <React.Fragment>
-      {isAuthenticated ? <NavBar /> : <LoginForm isAuthenticated={isAuthenticated} authError={authError} authenticate={authenticateUser} />}
-    </React.Fragment>
+    <BrowserRouter>
+      {isAuthenticated ? <Home /> : <LoginForm isAuthenticated={isAuthenticated} authError={authError} authenticate={authenticateUser} />}
+    </BrowserRouter>
   );
 }
 

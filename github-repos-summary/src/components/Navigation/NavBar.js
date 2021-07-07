@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
     Collapse,
     Navbar,
@@ -8,7 +8,9 @@ import {
     NavItem,
     NavLink,
     NavbarText
-} from 'reactstrap';
+} from 'reactstrap'
+
+import { NavLink as RRNavLink } from 'react-router-dom'
 
 const NavBar = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,15 +20,15 @@ const NavBar = (props) => {
     return (
         <div>
             <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">GitHub Repos Summary</NavbarBrand>
+                <NavbarBrand href="#">GitHub Repos Summary</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem>
-                            <NavLink href="/components/">Commits</NavLink>
+                            <NavLink tag={RRNavLink} exact to="/commits/">Commits</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="https://github.com/reactstrap/reactstrap">Summary</NavLink>
+                            <NavLink tag={RRNavLink} exact to="/summary/">Summary</NavLink>
                         </NavItem>
                     </Nav>
                     <NavbarText>muneeb706</NavbarText>
