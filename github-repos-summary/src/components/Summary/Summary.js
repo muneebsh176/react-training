@@ -1,7 +1,9 @@
+import Table from '../Tables/Table'
+
 const Summary = () => {
 
     return (
-        <div>Summary</div>
+        <Table />
     )
 }
 
