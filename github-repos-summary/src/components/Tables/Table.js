@@ -21,7 +21,7 @@ const Table = ({ repos, attributes, currentPage, totalPages, setPage }) => {
                 [state]
             );
         },
-        initialState: { pageIndex: currentPage }, // Pass our hoisted table state
+        initialState: { pageIndex: currentPage },
         manualPagination: true,
         pageCount: totalPages,
     }, useGlobalFilter, useSortBy, usePagination)
