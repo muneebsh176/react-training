@@ -1,25 +1,26 @@
 import React, { useMemo } from "react";
 import { useTable } from 'react-table'
-import MOCK_DATA from '../../data/MOCK_DATA.json'
-import { COLUMNS } from './columns'
 import './table.css'
 
-const Table = () => {
+const Table = ({ repos, attributes }) => {
 
-    const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
+    console.log(repos)
+
+    const columns = useMemo(() => attributes, [])
+    const data = useMemo(() => repos, [])
 
     const tableInstance = useTable({
         columns,
         data
     })
 
-    const { 
-        getTableProps, 
-        getTableBodyProps, 
-        headerGroups, 
-        rows, 
-        prepareRow 
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        footerGroups
     } = tableInstance
 
     return (
@@ -27,17 +28,17 @@ const Table = () => {
             <thead>
                 {
                     headerGroups.map((headerGroup) => {
-                    return (<tr {...headerGroup.getHeaderGroupProps()}>
-                        {
-                            headerGroup.headers.map((column) => {
-                                return (<th {...column.getHeaderProps()}>
-                                    {column.render('Header')}
-                                </th>)
+                        return (<tr {...headerGroup.getHeaderGroupProps()}>
+                            {
+                                headerGroup.headers.map((column) => {
+                                    return (<th {...column.getHeaderProps()}>
+                                        {column.render('Header')}
+                                    </th>)
 
-                            })
-                        }
+                                })
+                            }
 
-                    </tr>)
+                        </tr>)
 
                     })
                 }
@@ -45,7 +46,7 @@ const Table = () => {
             </thead>
             <tbody {...getTableBodyProps()}>
                 {
-                    rows.map((row)=>{
+                    rows.map((row) => {
                         prepareRow(row)
                         return (
                             <tr {...row.getRowProps()}>
@@ -61,6 +62,29 @@ const Table = () => {
                     })
                 }
             </tbody>
+            <tfoot>
+                {
+                    footerGroups.map((footerGroup) => {
+                        return (
+                            <tr {...footerGroup.getFooterGroupProps()}>
+                                {
+                                    footerGroup.headers.map((column) => {
+
+                                        return (
+                                            <td {...column.getFooterProps()}>
+                                                {
+                                                    column.render('Footer')
+                                                }
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })
+
+                }
+            </tfoot>
         </table>
     );
 }

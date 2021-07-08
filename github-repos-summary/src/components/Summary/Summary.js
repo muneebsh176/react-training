@@ -1,9 +1,13 @@
 import Table from '../Tables/Table'
+import React from 'react'
+import { COLUMNS } from '../Summary/columns'
 
-const Summary = () => {
+const Summary = ({ repos }) => {
 
     return (
-        <Table />
+        <React.Fragment>
+            <Table repos={repos} attributes={COLUMNS} />
+        </React.Fragment>
     )
 }
 
