@@ -1,18 +1,18 @@
 import React, { useMemo } from "react";
-import { useTable } from 'react-table'
+import { useTable, useSortBy } from 'react-table'
 import './table.css'
 
 const Table = ({ repos, attributes }) => {
 
     console.log(repos)
 
-    const columns = useMemo(() => attributes, [])
-    const data = useMemo(() => repos, [])
+    const columns = useMemo(() => attributes, [attributes])
+    const data = useMemo(() => repos, [repos])
 
     const tableInstance = useTable({
         columns,
         data
-    })
+    }, useSortBy)
 
     const {
         getTableProps,
@@ -27,20 +27,26 @@ const Table = ({ repos, attributes }) => {
         <table {...getTableProps()}>
             <thead>
                 {
-                    headerGroups.map((headerGroup) => {
-                        return (<tr {...headerGroup.getHeaderGroupProps()}>
+                    headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
                             {
-                                headerGroup.headers.map((column) => {
-                                    return (<th {...column.getHeaderProps()}>
+                                headerGroup.headers.map((column) => (
+
+                                    <th
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.render('Header')}
-                                    </th>)
+                                        <span>
+                                            {column.isSorted ?
+                                                (column.isSortedDesc ? ' ▼' : ' ▲') : ''}
+                                        </span>
+                                    </th>
 
-                                })
-                            }
 
-                        </tr>)
+                                ))}
 
-                    })
+                        </tr>
+
+                    ))
                 }
 
             </thead>
