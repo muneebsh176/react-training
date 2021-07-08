@@ -13,5 +13,11 @@ export const COLUMNS = [
         Header: 'Watchers Count',
         Footer: 'Watchers Count',
         accessor: 'watchers_count'
+    },
+    {
+        Header: 'Size (MB)',
+        Footer: 'Size (MB)',
+        accessor: 'size'
     }
+
 ]
