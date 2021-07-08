@@ -12,7 +12,7 @@ import {
 
 import { NavLink as RRNavLink } from 'react-router-dom'
 
-const NavBar = (props) => {
+const NavBar = ({ user }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
@@ -31,7 +31,7 @@ const NavBar = (props) => {
                             <NavLink tag={RRNavLink} exact to="/summary/">Summary</NavLink>
                         </NavItem>
                     </Nav>
-                    <NavbarText>muneeb706</NavbarText>
+                    <NavbarText>{user}</NavbarText>
                 </Collapse>
             </Navbar>
         </div>

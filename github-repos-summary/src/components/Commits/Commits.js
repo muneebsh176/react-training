@@ -3,10 +3,10 @@ import { useCommits } from '../Api/GitHubApi';
 import SelectPicker from '../Elements/SelectPicker';
 import Line from '../Graphs/Line';
 
-const Commits = ({ repos, isLoading }) => {
+const Commits = ({ repos, isLoading, user }) => {
 
-    const [selectedRepo, setSelectedRepo] = useState(repos[1])
-    const { commits, status } = useCommits(selectedRepo)
+    const [selectedRepo, setSelectedRepo] = useState(repos[0])
+    const { commits, status } = useCommits(selectedRepo, user)
     const [monthlyCommits, setMonthlyCommits] = useState([
         {
             "id": selectedRepo,
@@ -15,9 +15,11 @@ const Commits = ({ repos, isLoading }) => {
         }
     ])
 
+
     const onChangeRepo = (repo) => {
         setSelectedRepo(repo)
     }
+
 
     useEffect(() => {
         if (!isLoading && status === "DONE") {
@@ -51,6 +53,7 @@ const Commits = ({ repos, isLoading }) => {
                     "data": monthlyCommitsTemp
                 }
             ])
+
         }
     }, [isLoading, commits, status, selectedRepo])
 

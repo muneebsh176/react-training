@@ -1,57 +1,88 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 
-export const useRepos = (page) => {
-    const [repos, setRepos] = useState(undefined);
+export const useRepos = (page, user) => {
+    const [repos, setRepos] = useState([]);
     const [status, setStatus] = useState("IDLE")
+    const componentUnmounted = useRef(false)
+
+    useEffect(() => {
+        return () => {
+            componentUnmounted.current = true
+        };
+    }, [])
 
     useEffect(() => {
 
-        const fetchData = () => {
-            const REPOS_URL =
-                `https://api.github.com/users/fabpot/repos?per_page=10&page=${page}&type=public`;
+        if (page && user) {
+            const fetchData = () => {
+                const REPOS_URL =
+                    `https://api.github.com/users/${user}/repos?per_page=10&page=${page}&type=public`;
 
-            console.log("Fetching Repos")
-            setStatus("FETCHING")
-            fetch(REPOS_URL)
-                .then((res) => res.json())
-                .then((repos) => {
-                    setRepos(repos)
-                })
-                .catch(() => { })
-                .finally(() => setStatus("DONE"))
+                console.log("Fetching Repos")
+                setStatus("FETCHING")
+                fetch(REPOS_URL)
+                    .then((res) => res.json())
+                    .then((repos) => {
+                        if (!componentUnmounted.current) {
+                            setRepos(repos)
+                        }
+                    })
+                    .catch(() => { })
+                    .finally(() => {
+                        if (!componentUnmounted.current) {
+                            setStatus("DONE")
+                        }
+                    })
+            }
+
+            fetchData()
         }
 
-        fetchData()
-
-    }, [page]);
+    }, [page, user]);
 
 
     return { repos, status };
 };
 
-export const useCommits = (repo) => {
-    const [commits, setCommits] = useState(undefined);
+export const useCommits = (repo, user) => {
+    const [commits, setCommits] = useState([]);
     const [status, setStatus] = useState("IDLE")
+    const componentUnmounted = useRef(false)
+
+    useEffect(() => {
+        return () => {
+            componentUnmounted.current = true
+        };
+    }, [])
 
     useEffect(() => {
 
-        const fetchData = () => {
-            setStatus("FETCHING")
-            const COMMITS_URL =
-                `https://api.github.com/repos/fabpot/${repo}/commits`
-            fetch(COMMITS_URL)
-                .then((res) => res.json())
-                .then((commits) => {
-                    setCommits(commits)
-                })
-                .catch(() => { })
-                .finally(() => setStatus("DONE"))
+        if (repo && user) {
+            const fetchData = () => {
+                setStatus("FETCHING")
+                const COMMITS_URL =
+                    `https://api.github.com/repos/${user}/${repo}/commits`
+                fetch(COMMITS_URL)
+                    .then((res) => res.json())
+                    .then((commits) => {
+                        if (!componentUnmounted.current) {
+                            setCommits(commits)
+                        }
+                    })
+                    .catch(() => { })
+                    .finally(() => {
+                        if (!componentUnmounted.current) {
+                            setStatus("DONE")
+                        }
+                    })
+            }
+
+
+            fetchData()
         }
 
-        fetchData()
-
-    }, [repo]);
+    }, [repo, user]);
 
 
     return { commits, status };
