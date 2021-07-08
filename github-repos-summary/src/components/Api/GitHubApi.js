@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { getAttributesList } from '../../utils'
-
 
 
 const COMMITS_URL =

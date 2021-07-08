@@ -1,4 +1,4 @@
-function getAttributesList(json, attrName) {
+function extractAttrData(json, attrName) {
 
     let attrList = [];
     json.forEach((d) => {
@@ -9,5 +9,5 @@ function getAttributesList(json, attrName) {
 }
 
 export {
-    getAttributesList,
+    extractAttrData,
 };

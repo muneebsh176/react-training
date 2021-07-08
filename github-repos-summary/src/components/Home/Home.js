@@ -5,6 +5,7 @@ import Summary from '../Summary/Summary'
 import { useState } from 'react'
 import { useRepos } from '../Api/GitHubApi'
 import { Route, Switch } from "react-router-dom";
+import { extractAttrData } from '../../utils'
 
 const Home = () => {
     const [page, setPage] = useState(1)
@@ -20,7 +21,12 @@ const Home = () => {
 
 
                     <Switch>
-                        <Route path="/commits" exact component={Commits} />
+                        <Route path="/commits" exact
+                            component={() =>
+                                <Commits
+                                    repos={extractAttrData(repos, "name")}
+                                />}
+                        />
                         <Route path="/summary" exact
                             component={() =>
                                 <Summary
