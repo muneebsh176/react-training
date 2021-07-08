@@ -3,6 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 
 const Line = ({ data, xLabel, yLabel }) => (
 
+
     < ResponsiveLine
         data={data}
         margin={{
@@ -17,7 +18,7 @@ const Line = ({ data, xLabel, yLabel }) => (
         yScale={{
             type: 'linear',
             stacked: true,
-            min: 'auto',
+            min: '0',
             max: 'auto'
         }}
         minY="auto"

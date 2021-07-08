@@ -4,7 +4,12 @@ import { GlobalFilter } from "./GlobalFilter";
 import './table.css'
 
 
-const Table = ({ repos, attributes, currentPage, totalPages, setPage }) => {
+const Table = ({ repos,
+    attributes,
+    currentPage,
+    totalPages,
+    setPage,
+    isLoading }) => {
 
     const columns = useMemo(() => attributes, [attributes])
     const data = useMemo(() => repos, [repos])
@@ -42,7 +47,7 @@ const Table = ({ repos, attributes, currentPage, totalPages, setPage }) => {
     return (
         <div className="text-center">
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-            <table {...getTableProps()}>
+            <table {...getTableProps()} className={(isLoading ? "loading" : "")}>
                 <thead>
                     {
                         headerGroups.map((headerGroup) => (

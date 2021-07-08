@@ -3,7 +3,7 @@ import { useCommits } from '../Api/GitHubApi';
 import SelectPicker from '../Elements/SelectPicker';
 import Line from '../Graphs/Line';
 
-const Commits = ({ repos }) => {
+const Commits = ({ repos, isLoading }) => {
 
     const [selectedRepo, setSelectedRepo] = useState(repos[1])
     const { commits, status } = useCommits(selectedRepo)
@@ -20,7 +20,7 @@ const Commits = ({ repos }) => {
     }
 
     useEffect(() => {
-        if (status === "DONE") {
+        if (!isLoading && status === "DONE") {
             const monthlyCommitsData = {}
             commits.forEach((commit) => {
                 // splitting datetime by '-' to get year and month
@@ -52,19 +52,24 @@ const Commits = ({ repos }) => {
                 }
             ])
         }
-    }, [commits, status, selectedRepo])
+    }, [isLoading, commits, status, selectedRepo])
 
     return (
         <div className="m-3 text-center">
             {
-                status !== "DONE" ?
+                !isLoading && status !== "DONE" ?
                     <pre>Loading...</pre> :
                     <div style={{ height: 500 }}>
                         <SelectPicker
                             items={repos}
                             defaultSelected={selectedRepo}
                             onChange={onChangeRepo} />
-                        <Line data={monthlyCommits} xLabel={"Month"} yLabel={"Count"} />
+                        <Line
+                            data={monthlyCommits}
+                            xLabel={"Month"}
+                            yLabel={"Count"}
+                            isLoading={isLoading}
+                        />
                     </div>
             }
         </div>
