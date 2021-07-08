@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 
 
-const COMMITS_URL =
-    "https://api.github.com/repos/fabpot/{repo}/commits"
-
-
 export const useRepos = (page) => {
     const [repos, setRepos] = useState(undefined);
     const [status, setStatus] = useState("IDLE")
@@ -42,7 +38,9 @@ export const useCommits = (repo) => {
 
         const fetchData = () => {
             setStatus("FETCHING")
-            fetch(COMMITS_URL.replace("{repo}", repo))
+            const COMMITS_URL =
+                `https://api.github.com/repos/fabpot/${repo}/commits`
+            fetch(COMMITS_URL)
                 .then((res) => res.json())
                 .then((commits) => {
                     setCommits(commits)

@@ -12,7 +12,7 @@ const App = () => {
 
   const authenticateUser = ({ username, password }) => {
 
-    if (username === "muneeb706" && password === "admin123") {
+    if (username === "fabpot" && password === "admin123") {
       setIsAuthenticated(true)
       // set user
     } else {

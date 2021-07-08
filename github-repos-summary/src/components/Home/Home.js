@@ -25,6 +25,7 @@ const Home = () => {
                             component={() =>
                                 <Commits
                                     repos={extractAttrData(repos, "name")}
+                                    isLoading={status !== "DONE"}
                                 />}
                         />
                         <Route path="/summary" exact
@@ -33,6 +34,7 @@ const Home = () => {
                                     repos={repos}
                                     page={page}
                                     setPage={setPage}
+                                    isLoading={status !== "DONE"}
                                 />}
                         />
                     </Switch>
