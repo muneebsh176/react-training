@@ -1,31 +1,43 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useGlobalFilter } from 'react-table'
+import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table'
 import { GlobalFilter } from "./GlobalFilter";
 import './table.css'
 
 
-const Table = ({ repos, attributes }) => {
+const Table = ({ repos, attributes, currentPage, totalPages, setPage }) => {
 
     const columns = useMemo(() => attributes, [attributes])
     const data = useMemo(() => repos, [repos])
 
     const tableInstance = useTable({
         columns,
-        data
-    }, useGlobalFilter, useSortBy)
+        data,
+        useControlledState: (state) => {
+            return useMemo(
+                () => ({
+                    ...state,
+                    pageIndex: currentPage,
+                }),
+                [state]
+            );
+        },
+        initialState: { pageIndex: currentPage }, // Pass our hoisted table state
+        manualPagination: true,
+        pageCount: totalPages,
+    }, useGlobalFilter, useSortBy, usePagination)
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        page,
+        pageOptions,
         prepareRow,
-        footerGroups,
         state,
         setGlobalFilter
     } = tableInstance
 
-    const { globalFilter } = state
+    const { pageIndex, globalFilter } = state
 
     return (
         <div className="text-center">
@@ -58,7 +70,7 @@ const Table = ({ repos, attributes }) => {
                 </thead>
                 <tbody {...getTableBodyProps()}>
                     {
-                        rows.map((row) => {
+                        page.map((row) => {
                             prepareRow(row)
                             return (
                                 <tr {...row.getRowProps()}>
@@ -74,31 +86,24 @@ const Table = ({ repos, attributes }) => {
                         })
                     }
                 </tbody>
-                <tfoot>
-                    {
-                        footerGroups.map((footerGroup) => {
-                            return (
-                                <tr {...footerGroup.getFooterGroupProps()}>
-                                    {
-                                        footerGroup.headers.map((column) => {
-
-                                            return (
-                                                <td {...column.getFooterProps()}>
-                                                    {
-                                                        column.render('Footer')
-                                                    }
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                            )
-                        })
-
-                    }
-                </tfoot>
             </table>
-        </div>
+            <div className="m-3">
+                <span>
+                    Page {' '}
+                    <strong>
+                        {pageIndex} of {pageOptions.length}
+                    </strong>
+                </span>
+                <button className="mx-3"
+                    onClick={() => {
+                        setPage((s) => (s === 0 ? 0 : s - 1))
+                    }}
+                    disabled={currentPage === 1}>Previous</button>
+                <button
+                    onClick={() => setPage((s) => (s + 1))}
+                    disabled={currentPage === totalPages}>Next</button>
+            </div>
+        </div >
     );
 }
 
