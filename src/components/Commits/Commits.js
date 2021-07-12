@@ -46,11 +46,16 @@ const Commits = ({ repos, isLoading, user }) => {
                 });
             });
 
+            // sort by time in ascending
+            let sortedData = monthlyCommitsTemp.sort((a, b) =>
+                a.x > b.x ? 1 : b.x > a.x ? -1 : 0
+            );
+            
             setMonthlyCommits([
                 {
                     "id": selectedRepo,
                     "color": "hsl(135, 70%, 50%)",
-                    "data": monthlyCommitsTemp
+                    "data": sortedData
                 }
             ])
 
