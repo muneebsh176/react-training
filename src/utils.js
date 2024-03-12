@@ -1,16 +1,12 @@
-function extractAttrData(json, attrName) {
+function extractAttrData (json, attrName) {
+  const attrList = []
+  if (json && json.length > 0) {
+    json.forEach((d) => {
+      attrList.push(d[attrName])
+    })
+  }
 
-
-    let attrList = [];
-    if (json && json.length > 0) {
-        json.forEach((d) => {
-            attrList.push(d[attrName]);
-        });
-    }
-
-    return attrList;
+  return attrList
 }
 
-export {
-    extractAttrData,
-};
+export { extractAttrData }

@@ -1,12 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from 'react'
+import './index.css'
+import App from './App'
+import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.css'
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container)
+root.render(
   <React.Fragment>
     <App />
-  </React.Fragment>,
-  document.getElementById("root")
-);
+  </React.Fragment>
+)

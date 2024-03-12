@@ -1,91 +1,81 @@
-import { useEffect, useState, useRef } from "react";
-
+import { useEffect, useRef, useState } from 'react'
 
 export const useRepos = (page, user) => {
-    const [repos, setRepos] = useState([]);
-    const [status, setStatus] = useState("IDLE")
-    const componentUnmounted = useRef(false)
+  const [repos, setRepos] = useState([])
+  const [status, setStatus] = useState('IDLE')
+  const componentUnmounted = useRef(false)
 
-    useEffect(() => {
-        return () => {
-            componentUnmounted.current = true
-        };
-    }, [])
+  useEffect(() => {
+    return () => {
+      componentUnmounted.current = true
+    }
+  }, [])
 
-    useEffect(() => {
+  useEffect(() => {
+    if (page && user) {
+      const fetchData = () => {
+        const REPOS_URL = `https://api.github.com/users/${user}/repos?per_page=10&page=${page}&type=public`
 
-        if (page && user) {
-            const fetchData = () => {
-                const REPOS_URL =
-                    `https://api.github.com/users/${user}/repos?per_page=10&page=${page}&type=public`;
-
-                console.log("Fetching Repos")
-                setStatus("FETCHING")
-                fetch(REPOS_URL)
-                    .then((res) => res.json())
-                    .then((repos) => {
-                        if (!componentUnmounted.current) {
-                            setRepos(repos)
-                        }
-                    })
-                    .catch(() => { })
-                    .finally(() => {
-                        if (!componentUnmounted.current) {
-                            setStatus("DONE")
-                        }
-                    })
+        console.log('Fetching Repos')
+        setStatus('FETCHING')
+        fetch(REPOS_URL)
+          .then((res) => res.json())
+          .then((repos) => {
+            if (!componentUnmounted.current) {
+              setRepos(repos)
             }
+          })
+          .catch(() => {})
+          .finally(() => {
+            if (!componentUnmounted.current) {
+              setStatus('DONE')
+            }
+          })
+      }
 
-            fetchData()
-        }
+      fetchData()
+    }
+  }, [page, user])
 
-    }, [page, user]);
-
-
-    return { repos, status };
-};
+  return { repos, status }
+}
 
 export const useCommits = (repo, user) => {
-    const [commits, setCommits] = useState([]);
-    const [status, setStatus] = useState("IDLE")
-    const componentUnmounted = useRef(false)
+  const [commits, setCommits] = useState([])
+  const [status, setStatus] = useState('IDLE')
+  const componentUnmounted = useRef(false)
 
-    useEffect(() => {
-        return () => {
-            componentUnmounted.current = true
-        };
-    }, [])
+  useEffect(() => {
+    return () => {
+      componentUnmounted.current = true
+    }
+  }, [])
 
-    useEffect(() => {
-
-        if (repo && user) {
-            const fetchData = () => {
-                setStatus("FETCHING")
-                const COMMITS_URL =
-                    `https://api.github.com/repos/${user}/${repo}/commits`
-                fetch(COMMITS_URL)
-                    .then((res) => res.json())
-                    .then((commits) => {
-                        if (!componentUnmounted.current) {
-                            setCommits(commits)
-                        }
-                    })
-                    .catch(() => { })
-                    .finally(() => {
-                        if (!componentUnmounted.current) {
-                            setStatus("DONE")
-                        }
-                    })
+  useEffect(() => {
+    if (repo && user) {
+      const fetchData = () => {
+        setStatus('FETCHING')
+        const COMMITS_URL = `https://api.github.com/repos/${user}/${repo}/commits`
+        fetch(COMMITS_URL)
+          .then((res) => res.json())
+          .then((commits) => {
+            if (!componentUnmounted.current) {
+              setCommits(commits)
             }
+          })
+          .catch(() => {})
+          .finally(() => {
+            if (!componentUnmounted.current) {
+              setStatus('DONE')
+            }
+          })
+      }
 
+      fetchData()
+    }
+  }, [repo, user])
 
-            fetchData()
-        }
-
-    }, [repo, user]);
-
-
-    return { commits, status };
+  return { commits, status }
 }
 
 // export const useReposCommits = () => {
@@ -122,11 +112,9 @@ export const useCommits = (repo, user) => {
 //                 fetchData(repoName)
 //             }
 
-
 //         }
 
 //     }, [repos, reposStatus, reposCommits]);
-
 
 //     return { reposCommits, status }
 
